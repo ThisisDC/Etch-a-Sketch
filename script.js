@@ -6,6 +6,7 @@ let colorpen = 'black';
 let colorbackground ='white';
 let mouseDown = false;
 let eraserfunction;
+let mouseClick;
 let rainbowfunction;
 let colornormalfunction = true;
 let rainbowcolorsarray = ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#9400D3'];
@@ -49,7 +50,7 @@ function cellborder(numberofcells, color){
             cell.classList.add('cell'); 
             cell.id='cell-n'+cellcount;
             cell.style.backgroundColor = color;
-            cell.onpointerover = function(){paint(this)};
+            cell.onmouseover = function(){paint(this)};
             cellwidth = 600/numberofcells;
             cell.style.width=`${cellwidth}px`;
             cell.style.height=`${cellwidth}px`;
@@ -82,13 +83,36 @@ function cellnoborder(numberofcells, color){
     }
 }
 }
+/* THIS COMBINED TO THE OTHER TWO (.onpointerdown, onpointerup) ALLOW THE 
+DRAWING. MAYBE IS NOT ONE OF THE BEST DECISION IK. WITHOUT THIS FUNCTION UNDER⬇ THE FIRST 
+CELL CLICKED CAN'T BE DRAW!*/
+/* onmousedown +- = onpointerdown this permise to use two different listener for this 2 differente functions*/
+
+container.onmousedown = function(e){
+    cell = e.target;
+    if(colornormalfunction === true){
+        cell.style.backgroundColor = colorpen;
+    }else
+    if(eraserfunction === true){
+        cell.style.backgroundColor = colorbackground;
+    }else
+    if(rainbowfunction === true){
+        let colornow = rainbowcolorsarray[countrb];
+        cell.style.backgroundColor = colornow;
+        countrb++;
+        if(countrb==6){
+            countrb=0;
+        }
+        
+    }}
 
 
 document.body.onpointerdown = function(){
-    mouseDown = true
+    mouseDown = true;
 }
+
 document.body.onpointerup = function(){
-    mouseDown = false
+    mouseDown = false;
 }
 
 slider.onpointerup = function() {
